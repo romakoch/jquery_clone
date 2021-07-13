@@ -178,6 +178,44 @@ class ElementCollection extends Array {
     this.forEach((e) => e.before(...content))
     return this
   }
+
+  remove() {
+    this.forEach((e) => e.parentElement.removeChild(e))
+    return this
+  }
+
+  empty() {
+    this.forEach((e) => (e.children = []))
+    return this
+  }
+
+  parent() {
+    let result = []
+    this.forEach((e) => result.push(e.parentElement))
+    return new ElementCollection(...result)
+  }
+
+  parents(parentSelector = 'body', el = this, arr = []) {
+    if (el[0] === document.querySelector(parentSelector)) {
+      return new ElementCollection(...arr)
+    } else {
+      return this.parents(
+        parentSelector,
+        new ElementCollection(...el.parent()),
+        [...el.parent(), ...arr]
+      )
+    }
+  }
+
+  children() {
+    let result = []
+    this.forEach((e) => {
+      for (let el of e.children) {
+        result.push(el)
+      }
+    })
+    return new ElementCollection(...result)
+  }
 }
 
 function $(param) {
@@ -254,11 +292,16 @@ $(document).ready(() => {
   //   $('div').fadeToggle(0.4)
   // })
 
+  // $('div').click((e) => {
+  //   $('div')
+  //     .css({ border: '1px solid #ccc', height: '200px' })
+  //     .append('asdasd', 'aaaaaaaaaaa')
+  //   // $(e.target).hide()
+  // })
   $('div').click((e) => {
-    $('div')
-      .css({ border: '1px solid #ccc', height: '200px' })
-      .append('asdasd', 'aaaaaaaaaaa')
-    // $(e.target).hide()
+    // console.log($(e.target).parent())
+    console.log($(e.target).parents())
+    // console.log($('ul').children())
   })
 })
 
