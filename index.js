@@ -38,8 +38,35 @@ class ElementCollection extends Array {
     return this.map((e) => e.nextElementSibling).filter((e) => e != null)
   }
 
+  nextAll(el = this, arr = []) {
+    if (el.length == 0) {
+      console.log('here')
+      return new ElementCollection(...arr.slice(1))
+    } else {
+      console.log('here')
+      return this.nextAll(new ElementCollection(...el.next()), [...arr, ...el])
+    }
+  }
+
   prev() {
     return this.map((e) => e.previousElementSibling).filter((e) => e != null)
+  }
+
+  prevAll(el = this, arr = []) {
+    if (el.length == 0) {
+      console.log('here')
+      return new ElementCollection(...arr.slice(0, -1))
+    } else {
+      console.log('here')
+      return this.prevAll(new ElementCollection(...el.prev()), [...el, ...arr])
+    }
+  }
+
+  siblings() {
+    return [
+      new ElementCollection(...this.prevAll()),
+      new ElementCollection(...this.nextAll()),
+    ]
   }
 
   removeClass(className) {
@@ -300,8 +327,20 @@ $(document).ready(() => {
   // })
   $('div').click((e) => {
     // console.log($(e.target).parent())
-    console.log($(e.target).parents())
+    // console.log($(e.target).parents())
     // console.log($('ul').children())
+  })
+
+  $('.div').click((e) => {
+    console.log($(e.target).nextAll())
+  })
+
+  $('.last').click((e) => {
+    console.log($(e.target).prevAll())
+  })
+
+  $('.center').click((e) => {
+    console.log($(e.target).siblings())
   })
 })
 
