@@ -158,6 +158,26 @@ class ElementCollection extends Array {
       })
     }
   }
+
+  append(...content) {
+    this.forEach((e) => e.append(...content))
+    return this
+  }
+
+  prepend(...content) {
+    this.forEach((e) => e.prepend(...content))
+    return this
+  }
+
+  after(...content) {
+    this.forEach((e) => e.after(...content))
+    return this
+  }
+
+  before(...content) {
+    this.forEach((e) => e.before(...content))
+    return this
+  }
 }
 
 function $(param) {
@@ -235,7 +255,9 @@ $(document).ready(() => {
   // })
 
   $('div').click((e) => {
-    $('div').css({ border: '1px solid #ccc', height: '200px' })
+    $('div')
+      .css({ border: '1px solid #ccc', height: '200px' })
+      .append('asdasd', 'aaaaaaaaaaa')
     // $(e.target).hide()
   })
 })
