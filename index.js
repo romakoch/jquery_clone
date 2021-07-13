@@ -58,10 +58,21 @@ class ElementCollection extends Array {
   }
 
   css(property, value) {
-    this.forEach((e) => {
-      //   console.log(e)
-      e.style.setProperty(property, value)
-    })
+    if (typeof property === 'object' || property instanceof Object) {
+      console.log(property)
+      this.forEach((e) => {
+        for (const key in property) {
+          if (Object.hasOwnProperty.call(property, key)) {
+            e.style.setProperty(key, property[key])
+          }
+        }
+      })
+    } else {
+      this.forEach((e) => {
+        e.style.setProperty(property, value)
+      })
+    }
+
     return this
   }
 
@@ -178,17 +189,22 @@ $.get = function ({ url, data = {}, success = () => {}, dataType }) {
 $(document).ready(() => {
   // $(document).on('click', 'div', () => console.log('click!'))
   console.log('Loaded!')
-  $('#button').on('click', (e) => {
-    $('div').fadeIn()
-  })
-  $('#button2').on('click', (e) => {
-    $('div').fadeOut()
-  })
-  $('#button3').on('click', (e) => {
-    $('div').fadeTo(0.4)
-  })
-  $('#button4').on('click', (e) => {
-    $('div').fadeToggle(0.4)
+  // $('#button').on('click', (e) => {
+  //   $('div').fadeIn()
+  // })
+  // $('#button2').on('click', (e) => {
+  //   $('div').fadeOut()
+  // })
+  // $('#button3').on('click', (e) => {
+  //   $('div').fadeTo(0.4)
+  // })
+  // $('#button4').on('click', (e) => {
+  //   $('div').fadeToggle(0.4)
+  // })
+
+  $('div').click((e) => {
+    $('div').css({ border: '1px solid #ccc', height: '200px' })
+    // $(e.target).hide()
   })
 })
 
@@ -198,13 +214,8 @@ $(document).ready(() => {
 // })
 
 // $('div').click((e) => {
-//     $('div').toggleClass('yellow').css('border', '1px solid #ccc')
-//     $(e.target).hide()
+//   $(e.target).css('opacity', '0')
 // })
-
-$('div').click((e) => {
-  $(e.target).css('opacity', '0')
-})
 
 // $('#button').click((e) => {
 //   e.preventDefault()
