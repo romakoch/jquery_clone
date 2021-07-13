@@ -128,6 +128,36 @@ class ElementCollection extends Array {
       this.fadeOut(howLong)
     }
   }
+
+  text(value = '') {
+    if (value === '') {
+      let result = []
+      this.forEach((e) => {
+        result = [e.textContent, ...result]
+      })
+      result = result.reverse()
+      return result
+    } else {
+      this.forEach((e) => {
+        e.textContent = value
+      })
+    }
+  }
+
+  html(value = '') {
+    if (value === '') {
+      let result = []
+      this.forEach((e) => {
+        result = [e.innerHTML, ...result]
+      })
+      result = result.reverse()
+      return result
+    } else {
+      this.forEach((e) => {
+        e.innerHTML = value
+      })
+    }
+  }
 }
 
 function $(param) {
@@ -189,9 +219,11 @@ $.get = function ({ url, data = {}, success = () => {}, dataType }) {
 $(document).ready(() => {
   // $(document).on('click', 'div', () => console.log('click!'))
   console.log('Loaded!')
-  // $('#button').on('click', (e) => {
-  //   $('div').fadeIn()
-  // })
+  $('#button').on('click', (e) => {
+    $('div').fadeIn()
+    console.log($(e.target).html())
+    console.log($(e.target).text())
+  })
   // $('#button2').on('click', (e) => {
   //   $('div').fadeOut()
   // })
