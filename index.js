@@ -69,6 +69,20 @@ class ElementCollection extends Array {
     ]
   }
 
+  first() {
+    if(this.children(this).length > 0) {
+      return new ElementCollection(this[0].children[0])
+    }
+    return new ElementCollection(this[0])
+  }
+
+  last() {
+    if(this.children(this).length > 0) {
+      return new ElementCollection(this[this.length - 1].children[this.children().length - 1])
+    }
+    return new ElementCollection(this[this.length - 1])
+  }
+
   removeClass(className) {
     this.forEach((e) => e.classList.remove(className))
     return this
@@ -331,17 +345,22 @@ $(document).ready(() => {
     // console.log($('ul').children())
   })
 
-  $('.div').click((e) => {
-    console.log($(e.target).nextAll())
-  })
+  // $('.div').click((e) => {
+  //   console.log($(e.target).nextAll())
+  // })
 
-  $('.last').click((e) => {
-    console.log($(e.target).prevAll())
-  })
+  // $('.last').click((e) => {
+  //   console.log($(e.target).prevAll())
+  // })
 
-  $('.center').click((e) => {
-    console.log($(e.target).siblings())
-  })
+  // $('.center').click((e) => {
+  //   console.log($(e.target).siblings())
+  // })
+  console.log($('ul').click((e) => {
+    e.stopPropagation()
+    console.log($(e.target).first())
+    console.log($(e.target).last())
+  }))
 })
 
 // $('div').on('click', (e) => {
